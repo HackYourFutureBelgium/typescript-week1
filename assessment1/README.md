@@ -5,8 +5,19 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 
 Credit: https://projecteuler.net/problem=1
 
-### Validate
+### Getting started
 
+Install the dependencies with 
+```
+npm install
+```
+
+Execute your code with
+```
+npm run start
+```
+
+Run the tests with
 ```
 npm run test
 ```
