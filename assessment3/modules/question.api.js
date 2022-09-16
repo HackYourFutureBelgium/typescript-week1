@@ -1,14 +1,11 @@
-const fetchQuestion = () => {
+const fetchQuestion = async () => {
   // Fetch a question from the https://the-trivia-api.com/api/questions?limit=5 API
+  const response = await fetch(
+    "https://the-trivia-api.com/api/questions?limit=5"
+  );
 
-  fetch("https://the-trivia-api.com/api/questions?limit=5")
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((err) => {
-      console.log(err);
-    });
-
-  return {};
+  const data = await response.json();
+  return data;
 };
 
 export { fetchQuestion };

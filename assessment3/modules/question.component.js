@@ -1,17 +1,22 @@
-const createQuestion = ({ question, correctAnswer, incorrectAnswers,}) => {
+const createQuestion = ({
+  category,
+  question,
+  correctAnswer,
+  incorrectAnswers,
+}) => {
+  // Concat the answers and shuffle them
+  const allAnswers = [correctAnswer, ...incorrectAnswers]
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
 
-    // Concat the answers and shuffle them
-    const allAnswers = [correctAnswer, ...incorrectAnswers]
-        .map(value => ({ value, sort: Math.random() }))
-        .sort((a, b) => a.sort - b.sort)
-        .map(({ value }) => value);
+  const $question = document.createElement("section");
 
-    const $question = document.createElement('section');
-
-    // Here you will need to modify the code
-    // Add an element with id "questionCategory" to the HTML and set the value to based on the category property
-    $question.innerHTML = `
-        <h1>${question}</h1>
+  // Here you will need to modify the code
+  // Add an element with id "questionCategory" to the HTML and set the value to based on the category property
+  $question.innerHTML = `
+        <h2 id="questionCategory">${category}</h2>
+        <h4>${question}</h4>
         <form class="question-options" action="">
             <input type="radio" name="answer" id="answer1" value="${allAnswers[0]}">
             <label for="answer1">${allAnswers[0]}</label><br>
@@ -26,31 +31,36 @@ const createQuestion = ({ question, correctAnswer, incorrectAnswers,}) => {
             <label for="answer4">${allAnswers[3]}</label><br>
 
             <input id="submitAnswer" type="submit" value="Submit" />
+           <button class="button">Next Question</button>
         </form>
     `;
 
-    // Handle the submission of the form and validate the answer
-    const $form = $question.querySelector('.question-options');
-    $form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const answer = $form.querySelector('input[name="answer"]:checked').value;
+  // Handle the submission of the form and validate the answer
+  const $form = $question.querySelector(".question-options");
 
-        let $response = $question.querySelector('.question-response');
-        console.log($response);
-        if (!$response) {
-            $response  = document.createElement('p');
-        }
-        $response.classList.add('question-response');
+  $form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const answer = $form.querySelector('input[name="answer"]:checked').value;
+    const next = $question.querySelector(".button");
+    let $response = $question.querySelector(".question-response");
+    console.log($response);
+    if (!$response) {
+      $response = document.createElement("p");
+    }
+    $response.classList.add("question-response");
 
-        $response.innerHTML = 'Sorry wrong answer';
-        if (answer === correctAnswer) {
-            $response.innerHTML = 'Correct !!';
-        }
+    $response.innerHTML = "Sorry wrong answer";
+    if (answer === correctAnswer) {
+      $response.innerHTML = "Correct !!";
+    }
 
-        $question.appendChild($response);
+    $question.appendChild($response);
+    next.addEventListener("click", () => {
+      window.location.reload();
     });
+  });
 
-    return $question;
-}
+  return $question;
+};
 
 export { createQuestion };
