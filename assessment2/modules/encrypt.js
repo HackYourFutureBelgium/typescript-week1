@@ -1,4 +1,4 @@
-const encryptText = (plainText, shift) => {
+ function encryptText  (plainText, shift)  {
     let cipherArr = []
     let cipherLetter
 
@@ -18,6 +18,6 @@ const encryptText = (plainText, shift) => {
       return cipherArr.push(cipherLetter)
     })  
     return cipherArr.join("")
-}
+};
 
-module.exports = { encryptText };
+export default  encryptText ;
